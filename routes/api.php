@@ -1,13 +1,7 @@
 <?php
 
-use App\Http\Controllers\apiAuth;
 use App\Http\Controllers\apiAuthController;
-use App\Models\Category;
-use App\Http\Resources\categoryResource;
-use App\Http\Resources\cityResourceCollection;
-use App\Http\Resources\governorateResourceCollection;
-use App\Models\City;
-use App\Models\Governorate;
+use App\Http\Controllers\apiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,36 +22,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-Route::get("/Categories/{id}" , function($id){
-
-    $categories = Category::findOrFail($id);
-    $cats = new categoryResource($categories);
-    return $cats;
-});
-
-Route::get("/cities" , function(){
-
-    $cities = City::all();
-    return new cityResourceCollection( $cities);
-
-});
-
-
-Route::get("/governorate/{id}" , function($id){
-
-    $governorate = Governorate::findOrFail($id);
-    $gov = new categoryResource($governorate);
-    return $gov;
-});
-
-Route::get("/governorate" , function(){
-
-    $governorate = Governorate::all();
-    return new governorateResourceCollection($governorate);
-
-});
+Route::prefix("v1")->group(function(){
+Route::get("/governorates" , [apiController::class , "governorates"]);
+Route::get("/cities" , [apiController::class , "cities"]);
+Route::get("/bloodTypes" , [apiController::class , "bloodTypes"]);
+Route::get("/categories" , [apiController::class , "categories"]);
+Route::get("/clients" , [apiController::class , "clients"]);
+Route::get("/contacts" , [apiController::class , "contacts"]);
+Route::get("/donations" , [apiController::class , "donation_requests"]);
+Route::get("/notifications" , [apiController::class , "notifications"]);
+Route::get("/posts" , [apiController::class , "posts"]);
+Route::get("/settings" , [apiController::class , "settings"]);
 
 
 Route::post("/register" , [apiAuthController::class , "register"]);
 Route::post("/login" , [apiAuthController::class , "login"]);
+
+});
+
+
+
+
 

@@ -14,7 +14,7 @@ class CreateClientsTable extends Migration {
 			$table->string('phone');
 			$table->string('password');
 			$table->string('mail');
-            $table->string('api_token')->unique;
+            $table->string('api_token' , 60)->unique()->nullable();
 			$table->date('birth_date');
 			$table->date('last_donation_date');
 			$table->string('pin_code');
